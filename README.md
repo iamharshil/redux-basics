@@ -25,7 +25,7 @@ export const userSlice = createSlice({
     }
 })
 
-export cosnt { login } = userSlice.actions;
+export const { login } = userSlice.actions;
 export default userSlice.reducer;
 ```
 
@@ -36,11 +36,11 @@ export default userSlice.reducer;
 const user = useSelector((state) => state.user.value);
 <div>
   <p>Name : {user.name}</p>
-  <p>Email: {user.emai}</p>
+  <p>Email: {user.email}</p>
 </div>;
 ```
 
-- it has value of state by "useSelector(state => state.statename.value)" then we can access that state in our application.
+- it has value of state by "useSelector(state => state.stateName.value)" then we can access that state in our application.
 - to update state value we import actions as module from our reducer file
 - we can use event handle to which will dispatch than action to reducer.
 
@@ -56,7 +56,7 @@ const dispatch - useDispatch();
 ></button>
 <button
   onClick={() => {
-    dispatch(changeCOlor(color)); // color -> localstate from input Change
+    dispatch(changeCOlor(color)); // color -> local state from input Change
   }}
 ></button>
 ```

@@ -1,38 +1,62 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## flow
 
-## Getting Started
+- start with "\_app.js" where we have every reducer and store
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+```js
+const store = configureStore({
+  reducer: {
+    user: userReducer, // userReducer ->import from reducer file
+  },
+});
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- store is where we set name and reducer for state.
+- reducer is name, initialState, and actions(reducers) of app. which will return actions and module and function with .reducer as default.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```js
+export const userSlice = createSlice({
+    name: "user",
+    initialState: { value: "xyz"},
+    reducers: {
+        login: (state, action) => {
+            state.value = action.payload
+        }
+        // ...
+    }
+})
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+export cosnt { login } = userSlice.actions;
+export default userSlice.reducer;
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- some of reducer require props which will be taken from "action.payload" in reducer action.
+- to use state we need useSelector will allow to get the state from redux store.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```js
+const user = useSelector((state) => state.user.value);
+<div>
+  <p>Name : {user.name}</p>
+  <p>Email: {user.emai}</p>
+</div>;
+```
 
-## Learn More
+- it has value of state by "useSelector(state => state.statename.value)" then we can access that state in our application.
+- to update state value we import actions as module from our reducer file
+- we can use event handle to which will dispatch than action to reducer.
 
-To learn more about Next.js, take a look at the following resources:
+```js
+// EX:
+import { useDispatch } from 'react-redux"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+const dispatch - useDispatch();
+<button
+  onClick={() => {
+    dispatch(login({ name: "xyz", age: 10 }));
+  }}
+></button>
+<button
+  onClick={() => {
+    dispatch(changeCOlor(color)); // color -> localstate from input Change
+  }}
+></button>
+```
